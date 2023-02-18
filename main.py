@@ -16,7 +16,7 @@ sites = ['daryo.uz', 'olx.uz', 'm.olx.uz', 'www.olx.uz',  'uzumbank.uz', 'uzcard
          'president.uz', 'my.gov.uz', 'soliq.uz', 'soliqservis.uz','esi.uz', 'senat.uz','invest.gov.uz', 'miit.uz', 'singlewindow.uz', 'emu.uz', 'www.bts.uz', 'bts.uz',
          'tezbor.uz','university.zoodpay.com', 'www.zoodpay.com', 'tezz.uz', 'www.prizma.uz','www.dpd.uz', 'www.prom.uz', 'davrbank.uz', 'www.gov.uz','data.egov.uz',
          'beemall.uz', 'nmc.uz', 'simpleglobal.com', 'shopi.uz', 'sello.uz', 'avtoelon.uz', 'www.avtoelon.uz', 'olcha.uz', 'bmtm.uz', 'www.sos-kd.uz', 'dd.gov.uz', 'www.creditasia.uz',
-         'credit.uz', 'milliykredit.uz', 'chakana.uz', 'kun.uz', 'crediton.uz', 'cyberweek.uz', 'koronapay.com', 'www.youtube.com', 'm.youtube.com']
+         'credit.uz', 'milliykredit.uz', 'chakana.uz', 'kun.uz', 'crediton.uz', 'cyberweek.uz', 'koronapay.com', 'www.youtube.com', 'm.youtube.com', 'stat.uz']
 
 
 
@@ -32,10 +32,10 @@ async def start(message: Message):
                                     f'xaqiqiy yoki fake ekanligini tekshirish uchun ushbu bot yaratilgan. '
                                     f'Saytni tekshirmoqchi bo\'lsangiz havolani usbu botga yuboring!', parse_mode='HTML')
 
-@dp.message_handler(lambda message: 'http' in message.text)
+@dp.message_handler(lambda message: 'http' in message.text.lower())
 async def checklink(message: Message):
     chat_id = message.chat.id
-    hidden_link = message.html_text
+    hidden_link = message.html_text.lower()
 
 
     soup = BeautifulSoup(hidden_link, 'html.parser')
@@ -56,9 +56,10 @@ async def checklink(message: Message):
         lin = []
 
         for link in hidden_link:
-
+            link = link.lower()
             if link.startswith('http'):
-                lin.append(link)
+                lin.append(link.lower())
+                print(link)
 
         if len(lin) == 0:
             await bot.send_message(chat_id, 'Iltimos havola jo\'nating!')
